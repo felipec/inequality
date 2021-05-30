@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+# United States Census Bureau
+# Current Population Survey
+# Annual Social and Economic Supplements
+# https://www.census.gov/data/datasets/time-series/demo/cps/cps-asec.html
+
+require_relative 'lib/csv'
+require_relative 'lib/inequality'
+
+def title(text)
+  puts [nil, text, '-' * text.size]
+end
+
+def print_quantiles(quantiles, probs)
+  quantiles.each_with_index do |e, i|
+    puts '%02i%% %.00f' % [100 * probs[i], e]
+  end
+end
+
+TOP_TEN = gen_probs(10, from=0.9)
+
+# Household data
+$income = csv('data/hhpub20.csv', %w[HTOTVAL HSUP_WGT], :to_i)
+
+$quantiles = wquantiles($income, DECILES)
+$median = $quantiles[4]
+
+title 'General'
+puts 'Median: %0.f' % [$median]
+puts 'Gini: %.02f%%' % [100 * gini($income)]
+
+title 'Classes'
+puts 'Middle: %0.f < x < %0.f' % [$median * 0.75, $median * 2.0]
+
+title 'Deciles'
+print_quantiles($quantiles, DECILES)
+
+title 'Top 10%'
+print_quantiles(wquantiles($income, TOP_TEN), TOP_TEN)
