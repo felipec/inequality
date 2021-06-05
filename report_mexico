@@ -7,13 +7,18 @@
 require_relative 'lib/csv'
 require_relative 'lib/inequality'
 
+def convert(v)
+  v /= 19.96 # USDMXN
+  v * 4 # data is by quarter
+end
+
 def title(text)
   puts [nil, text, '-' * text.size]
 end
 
 def print_quantiles(quantiles, probs)
   quantiles.each_with_index do |e, i|
-    puts '%02i%% %.00f' % [100 * probs[i], e]
+    puts '%02i%% %.00f' % [100 * probs[i], convert(e)]
   end
 end
 
@@ -25,11 +30,11 @@ $quantiles = wquantiles($income, DECILES)
 $median = $quantiles[4]
 
 title 'General'
-puts 'Median: %0.f' % [$median]
+puts 'Median: %0.f' % [convert($median)]
 puts 'Gini: %.02f%%' % [100 * gini($income)]
 
 title 'Classes'
-puts 'Middle: %0.f < x < %0.f' % [$median * 0.75, $median * 2.0]
+puts 'Middle: %0.f < x < %0.f' % [convert($median * 0.75), convert($median * 2.0)]
 
 title 'Deciles'
 print_quantiles($quantiles, DECILES)
