@@ -21,7 +21,7 @@ end
 TOP_TEN = gen_probs(10, from=0.9)
 
 # Household data
-$income = csv('data/hhpub20.csv', %w[HTOTVAL HSUP_WGT], :to_i).to_a
+$income = csv('data/hhpub22.csv', %w[HTOTVAL HSUP_WGT], :to_i).to_a
 
 $quantiles = wquantiles($income, DECILES)
 $median = $quantiles[4]
