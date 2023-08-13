@@ -8,7 +8,7 @@ require_relative 'lib/csv'
 require_relative 'lib/inequality'
 
 def convert(v)
-  v /= 19.96 # USDMXN
+  v /= 17.00 # USDMXN
   v * 4 # data is by quarter
 end
 
