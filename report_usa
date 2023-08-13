@@ -9,7 +9,7 @@ require_relative 'lib/csv'
 require_relative 'lib/inequality'
 
 def convert(v)
-  v
+  v / (287.5 / 305.1) # CPI: 22.03 / 23.06
 end
 
 def title(text)

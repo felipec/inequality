@@ -9,6 +9,7 @@ require_relative 'lib/inequality'
 
 def convert(v)
   v /= 17.00 # USDMXN
+  v /= (124.912 / 128.832) # CPI: Aug-Nov 2022 -> Jul 2023
   v * 4 # data is by quarter
 end
 
